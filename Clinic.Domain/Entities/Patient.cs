@@ -5,11 +5,13 @@ namespace Clinic.Domain.Entities;
 
 public class Patient : BaseEntity
 {
-    public required string FullName { get; set; }
-    public Sex Sex { get; set; }
+    public string FullName { get; set; } = string.Empty;
+
+    public string PhoneNumber { get; set; } = string.Empty;
+
     public DateOnly DateOfBirth { get; set; }
-    public required string Phone { get; set; }
+    public Sex Sex { get; set; }
     public string? Address { get; set; }
 
-    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+   
 }

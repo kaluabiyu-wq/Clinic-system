@@ -2,7 +2,7 @@ using Clinic.Domain.Common;
 
 namespace Clinic.Domain.Entities;
 
-
+/// <summary>Weekly working block: one row per doctor per weekday.</summary>
 public class Schedule : BaseEntity
 {
     public int DoctorId { get; set; }
