@@ -18,8 +18,8 @@ public sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
         builder.Property(s => s.DayOfWeek).HasConversion<string>().HasMaxLength(10);
         builder.Property(s => s.StartTime).HasColumnType("time without time zone");
         builder.Property(s => s.EndTime).HasColumnType("time without time zone");
-        builder.Property(s => s.CreatedAtUtc).HasColumnType("timestamp with time zone");
-        builder.Property(s => s.UpdatedAtUtc).HasColumnType("timestamp with time zone");
+        builder.Property(s => s.CreatedAt).HasColumnType("timestamp with time zone");
+        builder.Property(s => s.UpdatedAt).HasColumnType("timestamp with time zone");
 
         // One working block per doctor per weekday keeps SlotGenerator unambiguous.
         builder.HasIndex(s => new { s.DoctorId, s.DayOfWeek }).IsUnique();

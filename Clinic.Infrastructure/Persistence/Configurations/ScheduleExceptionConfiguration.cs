@@ -21,8 +21,8 @@ public sealed class ScheduleExceptionConfiguration : IEntityTypeConfiguration<Sc
         builder.Property(e => e.StartTime).HasColumnType("time without time zone");
         builder.Property(e => e.EndTime).HasColumnType("time without time zone");
         builder.Property(e => e.Reason).HasMaxLength(200);
-        builder.Property(e => e.CreatedAtUtc).HasColumnType("timestamp with time zone");
-        builder.Property(e => e.UpdatedAtUtc).HasColumnType("timestamp with time zone");
+        builder.Property(e => e.CreatedAt).HasColumnType("timestamp with time zone");
+        builder.Property(e => e.UpdatedAt).HasColumnType("timestamp with time zone");
 
         // The slot query asks "closures for this doctor on this date" on every request.
         builder.HasIndex(e => new { e.DoctorId, e.Date });

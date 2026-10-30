@@ -75,7 +75,6 @@ public class PatientService : IPatientService
         return patient.ToDto();
     }
 
-    // Trim and collapse repeated spaces: "  Abebe   Kebede " -> "Abebe Kebede"
     private static string NormalizeName(string name) =>
         string.Join(' ', name.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 }

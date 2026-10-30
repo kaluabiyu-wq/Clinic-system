@@ -29,8 +29,8 @@ public sealed class AppointmentConfiguration : IEntityTypeConfiguration<Appointm
         builder.Property(a => a.CheckInAtUtc).HasColumnType("timestamp with time zone");
         builder.Property(a => a.StartAtUtc).HasColumnType("timestamp with time zone");
         builder.Property(a => a.EndAtUtc).HasColumnType("timestamp with time zone");
-        builder.Property(a => a.CreatedAtUtc).HasColumnType("timestamp with time zone");
-        builder.Property(a => a.UpdatedAtUtc).HasColumnType("timestamp with time zone");
+        builder.Property(a => a.CreatedAt).HasColumnType("timestamp with time zone");
+        builder.Property(a => a.UpdatedAt).HasColumnType("timestamp with time zone");
 
         // Optimistic concurrency on PostgreSQL's xmin system column (uint).
         builder.Property(a => a.Version).IsRowVersion();

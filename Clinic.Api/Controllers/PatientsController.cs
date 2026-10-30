@@ -21,7 +21,7 @@ public class PatientsController : ControllerBase
         _validator = validator;
     }
 
-    /// <summary>Register a patient. Returns 409 with possible duplicates unless ConfirmNotDuplicate is true.</summary>
+   
     [HttpPost]
     [ProducesResponseType(typeof(PatientDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,7 +46,7 @@ public class PatientsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Patient!.Id }, result.Patient);
     }
 
-    /// <summary>Search by name or phone: GET /patients?q=abebe</summary>
+    
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<PatientSearchResultDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Search([FromQuery] string? q, CancellationToken ct) =>

@@ -37,7 +37,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<DateTime?>("CheckInAtUtc")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateOnly>("Date")
@@ -78,7 +78,7 @@ namespace Clinic.Infrastructure.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<uint>("Version")
@@ -165,7 +165,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<int>("AvgConsultMinutes")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FullName")
@@ -190,7 +190,7 @@ namespace Clinic.Infrastructure.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("character varying(80)");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
@@ -222,10 +222,10 @@ namespace Clinic.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateOnly>("DateOfBirth")
@@ -233,10 +233,10 @@ namespace Clinic.Infrastructure.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
@@ -246,12 +246,12 @@ namespace Clinic.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Phone");
+                    b.HasIndex("PhoneNumber");
 
                     b.HasIndex("FullName", "DateOfBirth");
 
@@ -266,7 +266,7 @@ namespace Clinic.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DayOfWeek")
@@ -289,7 +289,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -313,7 +313,7 @@ namespace Clinic.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateOnly>("Date")
@@ -332,7 +332,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<TimeOnly?>("StartTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -560,9 +560,9 @@ namespace Clinic.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Clinic.Domain.Entities.Patient", "Patient")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -674,11 +674,6 @@ namespace Clinic.Infrastructure.Migrations
                     b.Navigation("Exceptions");
 
                     b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("Clinic.Domain.Entities.Patient", b =>
-                {
-                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

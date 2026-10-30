@@ -20,8 +20,8 @@ public sealed class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
         builder.Property(d => d.Specialty).IsRequired().HasMaxLength(80);
         builder.Property(d => d.QueueLetter).IsRequired().HasMaxLength(1);
         builder.Property(d => d.RoomName).HasMaxLength(40);
-        builder.Property(d => d.CreatedAtUtc).HasColumnType("timestamp with time zone");
-        builder.Property(d => d.UpdatedAtUtc).HasColumnType("timestamp with time zone");
+        builder.Property(d => d.CreatedAt).HasColumnType("timestamp with time zone");
+        builder.Property(d => d.UpdatedAt).HasColumnType("timestamp with time zone");
 
         // Two doctors sharing a letter would produce identical queue labels on the board.
         builder.HasIndex(d => d.QueueLetter).IsUnique();
