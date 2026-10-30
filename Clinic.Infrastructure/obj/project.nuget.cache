@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "a7zWgC9tKPI=",
+  "dgSpecHash": "S01GX/oJay8=",
   "success": true,
-  "projectFilePath": "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tarik\\.nuget\\packages\\fluentvalidation\\12.2.0\\fluentvalidation.12.2.0.nupkg.sha512",
     "C:\\Users\\tarik\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.2.0\\fluentvalidation.dependencyinjectionextensions.12.2.0.nupkg.sha512",

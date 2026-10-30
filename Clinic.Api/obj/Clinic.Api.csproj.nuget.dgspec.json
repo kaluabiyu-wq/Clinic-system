@@ -30,8 +30,8 @@
               "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Application\\Clinic.Application.csproj": {
                 "projectPath": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Application\\Clinic.Application.csproj"
               },
-              "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj": {
-                "projectPath": "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj"
+              "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj"
               }
             }
           }
@@ -1197,14 +1197,14 @@
         }
       }
     },
-    "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj": {
+    "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
         "projectName": "Clinic.Infrastructure",
-        "projectPath": "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\Clinic.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\tarik\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\tarik\\Desktop\\Qiyas\\Clinic-system\\Clinic.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tarik\\AppData\\Roaming\\NuGet\\NuGet.Config"
