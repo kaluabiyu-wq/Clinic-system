@@ -163,54 +163,53 @@ namespace Clinic.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AvgConsultMinutes")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(10);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("QueueLetter")
                         .IsRequired()
                         .HasMaxLength(1)
-                        .HasColumnType("character varying(1)");
+                        .HasColumnType("character(1)")
+                        .IsFixedLength();
 
-                    b.Property<string>("RoomName")
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
+                    b.Property<string>("RoomNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Specialty")
                         .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsActive");
 
                     b.HasIndex("QueueLetter")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("\"UserId\" IS NOT NULL");
-
-                    b.ToTable("Doctors", null, t =>
-                        {
-                            t.HasCheckConstraint("CK_Doctors_AvgConsultMinutes", "\"AvgConsultMinutes\" > 0");
-
-                            t.HasCheckConstraint("CK_Doctors_QueueLetter", "char_length(\"QueueLetter\") = 1");
-                        });
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Clinic.Domain.Entities.Patient", b =>
@@ -293,6 +292,9 @@ namespace Clinic.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId")
+                        .IsUnique();
 
                     b.HasIndex("DoctorId", "DayOfWeek")
                         .IsUnique();
@@ -556,7 +558,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Clinic.Domain.Entities.Patient", "Patient")
@@ -581,19 +583,11 @@ namespace Clinic.Infrastructure.Migrations
                     b.Navigation("Appointment");
                 });
 
-            modelBuilder.Entity("Clinic.Domain.Entities.Doctor", b =>
-                {
-                    b.HasOne("Clinic.Infrastructure.Identity.ApplicationUser", null)
-                        .WithOne()
-                        .HasForeignKey("Clinic.Domain.Entities.Doctor", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
             modelBuilder.Entity("Clinic.Domain.Entities.Schedule", b =>
                 {
                     b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Schedules")
-                        .HasForeignKey("DoctorId")
+                        .WithOne("Schedule")
+                        .HasForeignKey("Clinic.Domain.Entities.Schedule", "DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -603,7 +597,7 @@ namespace Clinic.Infrastructure.Migrations
             modelBuilder.Entity("Clinic.Domain.Entities.ScheduleException", b =>
                 {
                     b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Exceptions")
+                        .WithMany("Closures")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -671,9 +665,9 @@ namespace Clinic.Infrastructure.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Exceptions");
+                    b.Navigation("Closures");
 
-                    b.Navigation("Schedules");
+                    b.Navigation("Schedule");
                 });
 #pragma warning restore 612, 618
         }

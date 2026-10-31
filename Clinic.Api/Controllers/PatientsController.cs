@@ -9,7 +9,7 @@ namespace Clinic.Api.Controllers;
 
 [ApiController]
 [Route("patients")]
-[Authorize(Roles = $"{RoleNames.Receptionist},{RoleNames.Administrator}")]
+//[Authorize(Roles = $"{RoleNames.Receptionist},{RoleNames.Administrator}")]
 public class PatientsController : ControllerBase
 {
     private readonly IPatientService _service;

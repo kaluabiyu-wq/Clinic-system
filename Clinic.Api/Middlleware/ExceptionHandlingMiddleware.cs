@@ -1,7 +1,7 @@
 using Clinic.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Clinic.Api.Middleware;
+namespace Clinic.Api.Middlleware;
 
 public class ExceptionHandlingMiddleware
 {

@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Clinic.Api.Middleware;
+using Clinic.Api.Middlleware;
 using Clinic.Application.Abstractions;
 using Clinic.Application.Services;
 using Clinic.Application.Validators;
@@ -19,10 +19,12 @@ builder.Services.AddDbContext<ClinicDbContext>(options =>
 // Infrastructure
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddSingleton<IClock, SystemClock>();
 
 // Application
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePatientValidator>();
 
 // API
