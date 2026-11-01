@@ -1,16 +1,11 @@
 namespace Clinic.Domain.Enums;
 
-/// <summary>
-/// Single source of truth for the lifecycle. The roadmap's "Done" and "Completed"
-/// inconsistency is resolved here: the value is Completed everywhere.
-/// Persisted as text, so renaming a member requires a data migration.
-/// </summary>
 public enum AppointmentStatus
 {
-    Booked,
-    Waiting,
-    Serving,
-    Completed,
-    Cancelled,
-    NoShow
+    Booked = 1,
+    Waiting = 2,
+    Serving = 3,
+    Completed = 4,
+    Cancelled = 5,
+    NoShow = 6
 }
