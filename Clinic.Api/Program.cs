@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Clinic.Api.Auth;
 using Clinic.Api.Middlleware;
 using Clinic.Application.Abstractions;
 using Clinic.Application.Services;
@@ -21,10 +22,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddSingleton<IClock, SystemClock>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
 
 // Application
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePatientValidator>();
 
 // API
