@@ -22,15 +22,21 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddSingleton<IClock, SystemClock>();
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();   
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IQueueRepository, QueueRepository>();
+builder.Services.AddHttpContextAccessor();
+
 
 
 // Application
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();   
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IQueueService, QueueService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePatientValidator>();
 
 // API

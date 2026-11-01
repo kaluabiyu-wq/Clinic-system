@@ -1,5 +1,4 @@
 using Clinic.Domain.Entities;
-using Clinic.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,12 +29,21 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
             .HasForeignKey(a => a.PatientId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // No double booking, enforced by the database: one active, non-walk-in appointment
-        // per doctor, date and slot. Cancelled and no-show appointments release the slot.
-        // The status names must match the AppointmentStatus enum (stored as text).
+    
         builder.HasIndex(a => new { a.DoctorId, a.Date, a.SlotTime })
             .IsUnique()
             .HasFilter("\"IsWalkIn\" = false AND \"Status\" IN ('Booked','Waiting','Serving','Completed')");
+
+        // Queue numbers are unique per doctor and day. Rows without a number (not checked in yet) are not compared.
+        builder.HasIndex(a => new { a.DoctorId, a.Date, a.QueueNo })
+            .IsUnique()
+            .HasDatabaseName("UX_Appointments_DoctorId_Date_QueueNo");
+
+        // At most one patient in consultation per doctor and day.
+        builder.HasIndex(a => new { a.DoctorId, a.Date })
+            .IsUnique()
+            .HasFilter("\"Status\" = 'Serving'")
+            .HasDatabaseName("UX_Appointments_OneServingPerDoctorPerDay");
 
         builder.HasIndex(a => new { a.Date, a.DoctorId });
         builder.HasIndex(a => a.PatientId);
