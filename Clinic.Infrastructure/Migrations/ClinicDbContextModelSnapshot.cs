@@ -265,6 +265,9 @@ namespace Clinic.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<TimeOnly>("CloseTime")
+                        .HasColumnType("time without time zone");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -276,24 +279,21 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("integer");
 
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<int?>("DoctorId1")
+                        .HasColumnType("integer");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                    b.Property<TimeOnly>("OpenTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<int>("SlotMinutes")
                         .HasColumnType("integer");
-
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId")
+                    b.HasIndex("DoctorId1")
                         .IsUnique();
 
                     b.HasIndex("DoctorId", "DayOfWeek")
@@ -301,9 +301,9 @@ namespace Clinic.Infrastructure.Migrations
 
                     b.ToTable("Schedules", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Schedules_EndAfterStart", "\"EndTime\" > \"StartTime\"");
+                            t.HasCheckConstraint("CK_Schedules_CloseAfterOpen", "\"CloseTime\" > \"OpenTime\"");
 
-                            t.HasCheckConstraint("CK_Schedules_SlotMinutes", "\"SlotMinutes\" > 0");
+                            t.HasCheckConstraint("CK_Schedules_SlotMinutesPositive", "\"SlotMinutes\" > 0");
                         });
                 });
 
@@ -324,27 +324,24 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("integer");
 
-                    b.Property<TimeOnly?>("EndTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<int?>("DoctorId1")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Reason")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<TimeOnly?>("StartTime")
-                        .HasColumnType("time without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId", "Date");
+                    b.HasIndex("DoctorId1");
 
-                    b.ToTable("ScheduleExceptions", null, t =>
-                        {
-                            t.HasCheckConstraint("CK_ScheduleExceptions_Window", "(\"StartTime\" IS NULL AND \"EndTime\" IS NULL) OR (\"StartTime\" IS NOT NULL AND \"EndTime\" IS NOT NULL AND \"EndTime\" > \"StartTime\")");
-                        });
+                    b.HasIndex("DoctorId", "Date")
+                        .IsUnique();
+
+                    b.ToTable("ScheduleExceptions", (string)null);
                 });
 
             modelBuilder.Entity("Clinic.Infrastructure.Identity.ApplicationUser", b =>
@@ -585,24 +582,28 @@ namespace Clinic.Infrastructure.Migrations
 
             modelBuilder.Entity("Clinic.Domain.Entities.Schedule", b =>
                 {
-                    b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
-                        .WithOne("Schedule")
-                        .HasForeignKey("Clinic.Domain.Entities.Schedule", "DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-                });
-
-            modelBuilder.Entity("Clinic.Domain.Entities.ScheduleException", b =>
-                {
-                    b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Closures")
+                    b.HasOne("Clinic.Domain.Entities.Doctor", null)
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Doctor");
+                    b.HasOne("Clinic.Domain.Entities.Doctor", null)
+                        .WithOne("Schedule")
+                        .HasForeignKey("Clinic.Domain.Entities.Schedule", "DoctorId1");
+                });
+
+            modelBuilder.Entity("Clinic.Domain.Entities.ScheduleException", b =>
+                {
+                    b.HasOne("Clinic.Domain.Entities.Doctor", null)
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinic.Domain.Entities.Doctor", null)
+                        .WithMany("Closures")
+                        .HasForeignKey("DoctorId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
