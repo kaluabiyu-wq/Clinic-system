@@ -30,11 +30,7 @@ namespace Clinic.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CancelReason")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<DateTime?>("CheckInAtUtc")
+                    b.Property<DateTime?>("CheckInAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreatedAt")
@@ -46,72 +42,51 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("EndAtUtc")
+                    b.Property<int?>("DoctorId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsWalkIn")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("PatientId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("QueueNo")
-                        .HasColumnType("integer");
+                    b.Property<string>("QueueNo")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
-                    b.Property<string>("Reason")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<string>("Reference")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("character varying(12)");
-
-                    b.Property<TimeOnly?>("SlotTime")
+                    b.Property<TimeOnly>("SlotTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<DateTime?>("StartAtUtc")
+                    b.Property<DateTime?>("StartAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<uint>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId1");
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("Reference")
-                        .IsUnique();
-
-                    b.HasIndex("Date", "DoctorId", "Status");
-
-                    b.HasIndex("DoctorId", "Date", "QueueNo")
-                        .IsUnique()
-                        .HasDatabaseName("UX_Appointments_QueueNo")
-                        .HasFilter("\"QueueNo\" IS NOT NULL");
+                    b.HasIndex("Date", "DoctorId");
 
                     b.HasIndex("DoctorId", "Date", "SlotTime")
                         .IsUnique()
-                        .HasDatabaseName("UX_Appointments_ActiveSlot")
                         .HasFilter("\"IsWalkIn\" = false AND \"Status\" IN ('Booked','Waiting','Serving','Completed')");
 
-                    b.ToTable("Appointments", null, t =>
-                        {
-                            t.HasCheckConstraint("CK_Appointments_QueueNoPositive", "\"QueueNo\" IS NULL OR \"QueueNo\" > 0");
-
-                            t.HasCheckConstraint("CK_Appointments_SlotMatchesKind", "(\"IsWalkIn\" = TRUE AND \"SlotTime\" IS NULL) OR (\"IsWalkIn\" = FALSE AND \"SlotTime\" IS NOT NULL)");
-                        });
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("Clinic.Domain.Entities.AppointmentEvent", b =>
@@ -125,31 +100,32 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<int>("AppointmentId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("FromStatus")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<DateTime>("OccurredAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ToStatus")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("ChangedByUserId")
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FromStatus")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("ToStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("AppointmentId", "OccurredAtUtc");
+                    b.HasIndex("AppointmentId");
 
                     b.ToTable("AppointmentEvents", (string)null);
                 });
@@ -553,15 +529,19 @@ namespace Clinic.Infrastructure.Migrations
             modelBuilder.Entity("Clinic.Domain.Entities.Appointment", b =>
                 {
                     b.HasOne("Clinic.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Clinic.Domain.Entities.Doctor", null)
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId1");
 
                     b.HasOne("Clinic.Domain.Entities.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -571,13 +551,11 @@ namespace Clinic.Infrastructure.Migrations
 
             modelBuilder.Entity("Clinic.Domain.Entities.AppointmentEvent", b =>
                 {
-                    b.HasOne("Clinic.Domain.Entities.Appointment", "Appointment")
+                    b.HasOne("Clinic.Domain.Entities.Appointment", null)
                         .WithMany("Events")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("Clinic.Domain.Entities.Schedule", b =>

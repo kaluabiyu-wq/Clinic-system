@@ -12,7 +12,6 @@ public class Appointment : BaseEntity
     public int PatientId { get; set; }
     public Patient? Patient { get; set; }
 
-    /// <summary>Clinic-local date and slot start time (see ClinicTime).</summary>
     public DateOnly Date { get; set; }
     public TimeOnly SlotTime { get; set; }
 

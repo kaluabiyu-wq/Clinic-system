@@ -2,7 +2,7 @@ namespace Clinic.Domain.Constants;
 
 public static class ClinicDefaults
 {
-
+    public const int AvgConsultMinutes = 10;
     public const int MinConsultMinutes = 1;
     public const int MaxConsultMinutes = 120;
 
