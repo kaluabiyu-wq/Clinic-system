@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Clinic.Infrastructure.Persistence.Configurations;
 
-public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    public void Configure(EntityTypeBuilder<ApplicationUser> b)
     {
-        builder.Property(u => u.FullName).IsRequired().HasMaxLength(120);
-        builder.Property(u => u.IsActive).HasDefaultValue(true);
+        b.Property(u => u.FullName).HasMaxLength(120).IsRequired();
+        b.Property(u => u.CreatedAtUtc).IsRequired();
+        b.HasIndex(u => u.DoctorId);
     }
 }
