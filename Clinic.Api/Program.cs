@@ -4,10 +4,12 @@ using Clinic.Api.Middlleware;
 using Clinic.Application.Abstractions;
 using Clinic.Application.Services;
 using Clinic.Application.Validators;
+using Clinic.Infrastructure.Identity;
 using Clinic.Infrastructure.Persistence;
 using Clinic.Infrastructure.Persistence.Repositories;
 using Clinic.Infrastructure.Time;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -41,6 +43,11 @@ builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ICsvExportService, CsvExportService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePatientValidator>();
+
+
+   builder.Services.AddIdentityCore<ApplicationUser>()
+       .AddRoles<IdentityRole>()
+       .AddEntityFrameworkStores<ClinicDbContext>();
 
 // API
 builder.Services.AddControllers()

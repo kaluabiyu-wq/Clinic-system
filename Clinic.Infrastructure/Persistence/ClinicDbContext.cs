@@ -2,13 +2,14 @@ using Clinic.Application.Abstractions;
 using Clinic.Domain.Common;
 using Clinic.Domain.Entities;
 using Clinic.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Infrastructure.Persistence;
 
 public class ClinicDbContext(DbContextOptions<ClinicDbContext> options, IClock clock)
-    : IdentityDbContext<ApplicationUser>(options)
+    : IdentityDbContext<ApplicationUser,IdentityRole<string>, string>(options)
 {
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Doctor> Doctors => Set<Doctor>();

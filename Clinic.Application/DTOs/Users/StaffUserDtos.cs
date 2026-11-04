@@ -6,7 +6,7 @@ public sealed record StaffUserDto(
     string Email,
     string Role,
     bool IsActive,
-    Guid? DoctorId,
+    string? DoctorId,
     DateTime CreatedAtUtc);
 
 public sealed record CreateStaffUserDto(
@@ -14,11 +14,11 @@ public sealed record CreateStaffUserDto(
     string Email,
     string Password,
     string Role,
-    Guid? DoctorId);
+    string? DoctorId);
 
 public sealed record UpdateStaffUserDto(
     string FullName,
     string Role,
     bool IsActive,
-    Guid? DoctorId,
+    string? DoctorId,
     string? NewPassword);

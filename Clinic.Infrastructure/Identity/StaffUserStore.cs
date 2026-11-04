@@ -22,7 +22,7 @@ public class StaffUserStore : IStaffUserStore
         return result;
     }
 
-    public async Task<StaffUserDto?> FindAsync(Guid id, CancellationToken ct)
+    public async Task<StaffUserDto?> FindAsync(string id, CancellationToken ct)
     {
         var u = await _users.FindByIdAsync(id.ToString());
         return u is null ? null : await ToDtoAsync(u);
@@ -58,7 +58,7 @@ public class StaffUserStore : IStaffUserStore
         return await ToDtoAsync(user);
     }
 
-    public async Task<StaffUserDto> UpdateAsync(Guid id, UpdateStaffUserDto dto, CancellationToken ct)
+    public async Task<StaffUserDto> UpdateAsync(string id, UpdateStaffUserDto dto, CancellationToken ct)
     {
         var user = await _users.FindByIdAsync(id.ToString())
             ?? throw new NotFoundException("Staff account not found.");
