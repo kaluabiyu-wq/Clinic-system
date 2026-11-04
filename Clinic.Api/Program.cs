@@ -70,11 +70,11 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();      // /scalar/v1
 }
 
+app.UseRequestLogging();
 app.UseHttpsRedirection();
-
-// app.UseAuthentication();           // add this before UseAuthorization once JWT is configured
+app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
