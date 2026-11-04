@@ -38,7 +38,7 @@ public class StaffUserStore : IStaffUserStore
     {
         var user = new ApplicationUser
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             UserName = dto.Email,
             Email = dto.Email,
             EmailConfirmed = true,

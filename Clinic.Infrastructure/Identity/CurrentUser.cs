@@ -2,17 +2,22 @@ using System.Security.Claims;
 using Clinic.Application.Abstractions;
 using Microsoft.AspNetCore.Http;
 
-namespace Clinic.Infrastructure.Identity;
+namespace Clinic.Api.Auth;
 
 public class CurrentUser : ICurrentUser
 {
-    private readonly IHttpContextAccessor _accessor;
-    public CurrentUser(IHttpContextAccessor accessor) => _accessor = accessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    private ClaimsPrincipal? Principal => _accessor.HttpContext?.User;
+    public CurrentUser(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-    public Guid? UserId =>
-        Guid.TryParse(Principal?.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
+    private ClaimsPrincipal? Principal => _httpContextAccessor.HttpContext?.User;
 
-    public string? Role => Principal?.FindFirstValue(ClaimTypes.Role);
+    public string UserId =>
+        Principal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+    public bool IsInRole(string role) =>
+        Principal?.IsInRole(role) ?? false;
 }
