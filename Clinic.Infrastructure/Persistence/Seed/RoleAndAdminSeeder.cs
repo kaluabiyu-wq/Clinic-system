@@ -27,7 +27,7 @@ public static class RoleAndAdminSeeder
 
         var admin = new ApplicationUser
         {
-            Id = Guid.NewGuid(), UserName = email, Email = email, EmailConfirmed = true,
+            Id = Guid.NewGuid().ToString(), UserName = email, Email = email, EmailConfirmed = true,
             FullName = "System Administrator", IsActive = true
         };
         var created = await users.CreateAsync(admin, password);
