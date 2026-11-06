@@ -17,7 +17,7 @@ public class StaffUserStore : IStaffUserStore
     {
         var all = await _users.Users.AsNoTracking().OrderBy(u => u.FullName).ToListAsync(ct);
         var result = new List<StaffUserDto>(all.Count);
-        // Staff lists are small, so one role lookup per user is acceptable here.
+       
         foreach (var u in all) result.Add(await ToDtoAsync(u));
         return result;
     }
@@ -52,7 +52,7 @@ public class StaffUserStore : IStaffUserStore
         var roleResult = await _users.AddToRoleAsync(user, dto.Role);
         if (!roleResult.Succeeded)
         {
-            await _users.DeleteAsync(user); // do not leave a role-less account behind
+            await _users.DeleteAsync(user); 
             Throw(roleResult);
         }
         return await ToDtoAsync(user);
@@ -66,7 +66,6 @@ public class StaffUserStore : IStaffUserStore
         user.FullName = dto.FullName.Trim();
         user.DoctorId = dto.DoctorId;
         user.IsActive = dto.IsActive;
-        // Lockout makes deactivation effective at the identity layer; AuthService also checks IsActive.
         user.LockoutEnabled = true;
         user.LockoutEnd = dto.IsActive ? null : DateTimeOffset.MaxValue;
         Throw(await _users.UpdateAsync(user));

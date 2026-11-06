@@ -61,7 +61,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Must be first so it can catch exceptions from everything after it
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())

@@ -8,7 +8,7 @@ namespace Clinic.Infrastructure.Persistence.Seed;
 
 public static class RoleAndAdminSeeder
 {
-    /// <summary>Call once at startup. Admin credentials come from config (Seed:AdminEmail / Seed:AdminPassword).</summary>
+    
     public static async Task SeedAsync(IServiceProvider services)
     {
         using var scope = services.CreateScope();
