@@ -26,7 +26,7 @@ public static class StatusTransitions
             throw new DomainException($"An appointment that is {from} cannot change to {to}.");
     }
 
-    /// <summary>Cancelled and no-show appointments release their slot.</summary>
+    
     public static bool HoldsSlot(AppointmentStatus status) =>
         status is not (Cancelled or NoShow);
 }

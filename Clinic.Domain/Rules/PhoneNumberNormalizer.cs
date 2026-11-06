@@ -2,11 +2,7 @@ using Clinic.Domain.Common;
 
 namespace Clinic.Domain.Rules;
 
-/// <summary>
-/// Normalizes Ethiopian mobile numbers to +2519XXXXXXXX / +2517XXXXXXXX.
-/// Accepts 09XXXXXXXX, 07XXXXXXXX, 2519XXXXXXXX, +2519XXXXXXXX and 9XXXXXXXX,
-/// with spaces or dashes.
-/// </summary>
+
 public static class PhoneNumberNormalizer
 {
     public static bool TryNormalize(string? input, out string normalized)

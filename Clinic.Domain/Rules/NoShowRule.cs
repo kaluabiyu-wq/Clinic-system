@@ -4,15 +4,12 @@ using Clinic.Domain.Enums;
 
 namespace Clinic.Domain.Rules;
 
-/// <summary>
-/// FR14: a no-show can be recorded only once the slot is more than 10 minutes past
-/// and the patient has not checked in.
-/// </summary>
+
 public static class NoShowRule
 {
     public const int GraceMinutes = 10;
 
-    /// <param name="clinicNow">Current clinic-local time (see ClinicTime).</param>
+   
     public static bool CanMarkNoShow(Appointment appointment, DateTime clinicNow) =>
         appointment.Status == AppointmentStatus.Booked
         && !appointment.IsWalkIn

@@ -2,10 +2,7 @@ using System.Globalization;
 
 namespace Clinic.Domain.Rules;
 
-/// <summary>
-/// Booking references look like APT1006. The number is the appointment Id plus 1000,
-/// so it is unique, needs no second database write, and can be turned back into an Id.
-/// </summary>
+
 public static class ReferenceGenerator
 {
     private const string Prefix = "APT";

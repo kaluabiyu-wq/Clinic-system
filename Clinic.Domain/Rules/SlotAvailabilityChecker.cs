@@ -12,16 +12,10 @@ public enum SlotCheckResult
     Taken
 }
 
-/// <summary>
-/// FR5: a slot is free when the doctor works that weekday, is not closed that date,
-/// the slot is not in the past, and no active appointment holds it.
-/// </summary>
+
 public static class SlotAvailabilityChecker
 {
-    /// <param name="workingDay">The doctor's Schedule row for that weekday, or null for a day off.</param>
-    /// <param name="takenSlots">Start times held by active, non-walk-in appointments on that date.</param>
-    /// <param name="clinicNow">Current clinic-local time (see ClinicTime).</param>
-    public static SlotCheckResult Check(
+        public static SlotCheckResult Check(
         Schedule? workingDay,
         bool isClosed,
         DateOnly date,
